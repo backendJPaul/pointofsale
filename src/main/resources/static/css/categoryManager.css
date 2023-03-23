@@ -1,0 +1,51 @@
+@import "modal.css";
+body{
+    background-color:rgb(100,100,100);
+    color: rgb(200,200,200);
+    font-family: "verdana";
+}
+.tableItemContainer{
+    width:90%;
+    display:grid;
+    grid-template-columns:5% 75% 10% 10%;
+    margin:50px auto;
+    gap: 1px;
+}
+.itemTitle, .itemOptions{
+    grid-column-start: 1;
+    grid-column-end: 5;
+    background-color: rgb(50,50,50);
+    font-weight: bold;
+    font-size:1.9em;
+    font-variant-caps: all-small-caps;
+}
+.itemTitle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.itemOptions{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+.itemHeader{
+    background-color: rgb(80,80,80);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.itemId, .itemName, .itemUpdate, .itemDelete{
+    background-color: lightslategray;
+}
+.itemId, .itemUpdate, .itemDelete{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.itemName{
+    margin-left: 20px;
+}
+.button{
+    width:100px;
+}
