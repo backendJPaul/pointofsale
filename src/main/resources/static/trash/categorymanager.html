@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Category Manager</title>
+    <link rel="stylesheet" type="text/css" href="css/categoryManager.css"/>
+</head>
+<body>
+<div class="itemOptions">
+    <input type="button" id="saveButton" class="button" value="Crear">
+</div>
+
+<div class="tableItemContainer" id="tableItemContainer">
+
+    <div class='itemTitle'>Categorias</div>
+    <div class='itemHeader'>ID</div>
+    <div class='itemHeader'>Nombre</div>
+    <div class='itemHeader'>Editar</div>
+    <div class='itemHeader'>Eliminar</div>
+
+</div>
+
+<div id="saveModal" class="modal">
+    <div class="containerModal">
+        <fieldset>
+            <legend>Crear Categoria</legend>
+            <label for="categorySaveText">Nombre de Categoria:</label>
+            <input type="text" id="categorySaveText" placeholder="Ingresar categoria">
+            <input type="button" id="categorySaveButton" value="Guardar">
+        </fieldset>
+        <input type="button" class="closeButton button" id="closeSaveButton" value="Cerrar"/>
+    </div>
+</div>
+
+
+<div id="editModal" class="modal">
+    <div class="containerModal">
+        <fieldset>
+            <legend>Editar Categoria</legend>
+            <label for="categoryEditText">Nombre de Categoria:</label>
+            <input type="text" id="categoryEditText" placeholder="Ingresar categoria">
+            <input type="button" id="categoryEditButton" value="Guardar">
+        </fieldset>
+        <input type="button" class="closeButton button" id="closeEditButton" value="Cerrar"/>
+    </div>
+</div>
+
+<script type="module" src="categorymanager.js"></script>
+<script type="text/javascript" src="modal.js"></script>
+</body>
+</html>

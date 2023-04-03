@@ -1,36 +1,22 @@
 import {CategoryService} from "./modules/CategoryService.js";
 const categoryService = new CategoryService("api/category/");
 
+let categorySaveButton = document.getElementById("categorySaveButton");
+categorySaveButton.addEventListener("click",saveCategory)
 
-const inputButtonSearch = document.getElementById("inputButtonSearch");
-inputButtonSearch.addEventListener("keypress",inputButtonSearchEventChange);
-function inputButtonSearchEventChange(){
-    fetchCategory(inputButtonSearch.value);
+async function saveCategory(){
+    let category = {
+        name: document.getElementById("categorySaveText").value
+    }
+    await categoryService.save(category);
 }
 
-async function fetchCategory(pattern){
+async function fetchCategory(){
+
+
 
     const tableItemContainer = document.getElementById("tableItemContainer");
-    tableItemContainer.innerText = "";
-
-    tableItemContainer.innerHTML =
-        >:wq"<div class='itemTitle'>Categorias</div>" +
-        "<div class='itemHeader'>ID</div>"+
-        "<div class='itemHeader'>Nombre</div>"+
-        "<div class='itemHeader'>Editar</div>"+
-        "<div class='itemHeader'>Eliminar</div>";
-
-    let categories = null;
-
-    if(pattern != null){
-        let category = {
-            name: pattern
-        }
-        categories = await categoryService.search(category)
-    }
-    else if(pattern == "" || pattern == null){
-        categories = await categoryService.fFetch();
-    }
+    const categories = await categoryService.fFetch();
 
     for (let category of categories) {
         const divItemId = document.createElement("div");
@@ -52,15 +38,38 @@ async function fetchCategory(pattern){
         const inputButtonEdit = document.createElement("input");
         inputButtonEdit.setAttribute("type","button");
         inputButtonEdit.setAttribute("value","Editar");
+
         inputButtonEdit.setAttribute("class","button");
         inputButtonEdit.setAttribute("id","inputButtonEdit" + category.idCategory);
+
+
+        inputButtonEdit.addEventListener("click", inputButtonEditHandlerClick);
+        let idCategory;
+        function inputButtonEditHandlerClick(){
+            let editModal = document.getElementById("editModal");
+            let categoryEditText = document.getElementById("categoryEditText");
+            categoryEditText.value = category.name;
+            idCategory = category.idCategory;
+            editModal.style.display = "block";
+        }
+
+        let categoryEditButton = document.getElementById("categoryEditButton");
+        categoryEditButton.addEventListener("click", categoryEditButtonHandler);
+        async function categoryEditButtonHandler(){
+            let category = {
+                idCategory : idCategory,
+                name : document.getElementById("categoryEditText").value
+            }
+            console.log(category);
+            await categoryService.update(category);
+        }
+
         divItemUpdate.appendChild(inputButtonEdit);
 
         tableItemContainer.appendChild(divItemUpdate);
-
         const divItemDelete = document.createElement("div");
-        divItemDelete.className = "itemDelete";
 
+        divItemDelete.className = "itemDelete";
         const inputButtonDelete = document.createElement("input");
 
         inputButtonDelete.setAttribute("type","button");
@@ -72,5 +81,4 @@ async function fetchCategory(pattern){
         tableItemContainer.appendChild(divItemDelete);
     }
 }
-
 fetchCategory();
