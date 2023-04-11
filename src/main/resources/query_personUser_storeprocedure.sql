@@ -1,153 +1,115 @@
 drop procedure if exists test;
 delimiter //
 create procedure test(
-    in _idPersonEnterprise int
+    in _idPersonUser int
 )
 begin
-    set @idPerson = (select idPerson from personEnterprise where personEnterprise.idPersonEnterprise = _idPersonEnterprise);
+    set @idPerson = (select idPerson from personUser where personEnterprise.idPersonUser = _idPersonEnterprise);
     select @idPerson;
 end //
 
 call test(8);
 
-drop procedure if exists savePerson;
-delimiter //
-create procedure savePerson(in _idCatalogGenre int,
-                            in _name varchar(35),
-                            in _lastName varchar(35),
-                            in _email varchar(35),
-                            in _direction varchar(35),
-                            in _phone varchar(9))
-begin
-    insert person(idCatalogGenre, name, lastName, email, direction, phone, idCatalogStatus)
-    values (_idCatalogGenre, _name, _lastName, _email, _direction, _phone, 1);
-end //
+describe personUser;
 
-drop procedure if exists saveEnterprise;
-delimiter //
-create procedure saveEnterprise(
-    in _ruc varchar(11),
-    in _direction varchar(35),
-    in _telephone varchar(9),
-    in _name varchar(35))
-begin
-    insert into enterprise(ruc, direction, telephone, name)
-    values (_ruc, _direction, _telephone, _name);
-end //
-
-drop procedure if exists fetchPersonEnterprise;
-create procedure fetchPersonEnterprise(
+drop procedure if exists fetchPersonUser;
+create procedure fetchPersonUser(
     in _idCatalogStatus int
 )
 begin
-    select personenterprise.idPersonEnterprise,
-           person.idPerson,
-           person.name,
-           person.lastName,
-           person.email,
-           person.direction,
-           person.phone,
-           enterprise.idEnterprise,
-           enterprise.ruc,
-           enterprise.direction,
-           enterprise.telephone,
-           enterprise.name
-           from personEnterprise
-           inner join person on personenterprise.idPerson = person.idPerson
-           inner join enterprise on personEnterprise.idEnterprise = enterprise.idEnterprise
-    where personenterprise.idCatalogStatus = _idCatalogStatus;
+    select  personUser.idPersonUser,
+            catalogUser.name as username,
+            person.idPerson,
+            person.name,
+            person.lastName,
+            person.email,
+            person.direction,
+            person.phone
+    from personUser
+             inner join catalogUser on catalogUser.idCatalogUser = personUser.idCatalogUser
+             inner join person on person.idPerson = personUser.idPerson
+    where personUser.idCatalogStatus = _idCatalogStatus ;
+
 end
 //
 
-drop procedure if exists gotoIdPersonEnterprise;
+drop procedure if exists gotoIdPersonUser;
 delimiter //
-create procedure gotoIdPersonEnterprise(
-    in _idPersonEnterprise int,
+create procedure gotoIdPersonUser(
+    in _idPersonUser int,
     in _idCatalogStatus int)
 begin
-    select personenterprise.idPersonEnterprise,
-           person.idPerson,
-           person.name,
-           person.lastName,
-           person.email,
-           person.direction,
-           person.phone,
-           enterprise.idEnterprise,
-           enterprise.ruc,
-           enterprise.direction,
-           enterprise.telephone,
-           enterprise.name
-    from personEnterprise
-             inner join
-         person on personenterprise.idPerson = person.idPerson
-             inner join
-         enterprise on personEnterprise.idEnterprise = enterprise.idEnterprise
-    where idPersonEnterprise = _idPersonEnterprise
-      and personenterprise.idCatalogStatus = _idCatalogStatus;
+    select  personUser.idPersonUser,
+            catalogUser.name as username,
+            person.idPerson,
+            person.name,
+            person.lastName,
+            person.email,
+            person.direction,
+            person.phone
+    from personUser
+             inner join catalogUser on catalogUser.idCatalogUser = personUser.idCatalogUser
+             inner join person on person.idPerson = personUser.idPerson
+    where idPersonUser = _idPersonUser and personUser.idCatalogStatus = _idCatalogStatus ;
 end
 //
 
-drop procedure if exists savePersonEnterprise;
+describe personUser;
+
+drop procedure if exists savePersonUser;
 delimiter //
-create procedure savePersonEnterprise(
+create procedure savePersonUser(
     in _idCatalogGenre int,
     in _personName varchar(35),
     in _lastName varchar(35),
     in _email varchar(35),
     in _personDirection varchar(35),
     in _phone varchar(9),
-    in _ruc varchar(35),
-    in _enterpriseDirection varchar(35),
-    in _telephone varchar(9),
-    in _enterpriseName varchar(35))
+    in _idCatalogUser int,
+    in _name varchar(35),
+    in _password varchar(35)
+)
 begin
     declare keyIdPerson int default 0;
-    declare keyIdEnterprise int default 0;
-    declare keyIdPersonEnterprise int default 0;
+    declare keyIdPersonUser int default 0;
 
     insert into person(idCatalogGenre, name, lastName, email, direction, phone, idCatalogStatus)
     values (_idCatalogGenre, _personName, _lastName, _email, _personDirection, _phone, 1);
     set keyIdPerson = last_insert_id();
 
-    insert into enterprise(ruc, direction, telephone, name, idCatalogStatus)
-    values (_ruc, _enterpriseDirection, _telephone, _enterpriseName, 1);
-    set keyIdEnterprise = last_insert_id();
+    insert into personUser(idCatalogUser, idPerson, name, password, idCatalogStatus)
+    values (_idCatalogUser, keyIdPerson, _name, _password, 1);
+    set keyIdPersonUser = last_insert_id();
 
-    insert into personEnterprise(idPerson, idEnterprise, idCatalogStatus)
-    values (keyIdPerson,keyIdEnterprise,1);
-    set keyIdPersonEnterprise = last_insert_id();
-
-    call fetchPersonEnterprise(1);
+    call gotoIdPersonUser(keyIdPerson,1);
 end
 //
 
-call savePersonEnterprise(1,
-    "Liz",
-    "Povis",
-    "anabelalbornos@gmail.com",
-    "Av. restauracion 285",
-    "926703234",
-    "10423446751",
-    "Av restauracion 2234",
-    "926703605",
-    "C J Estilos");
+call savePersonUser(1,
+    "Heidi",
+    "Huamani",
+    "heidi@gmail.com",
+    "Pasaje Jupiter 120",
+    "953105002",
+    1,
+    "hhuamani",
+    "root");
 
-drop procedure if exists updatePersonEnterprise;
+drop procedure if exists updatePersonUser;
 delimiter //
-create procedure updatePersonEnterprise(
-    in _idPersonEnterprise int,
+create procedure updatePersonUser(
+    in _idPersonUser int,
     in _idCatalogGenre int,
     in _personName varchar(35),
     in _lastName varchar(35),
     in _email varchar(35),
     in _personDirection varchar(35),
     in _phone varchar(9),
-    in _ruc varchar(35),
-    in _enterpriseDirection varchar(35),
-    in _telephone varchar(9),
-    in _enterpriseName varchar(35))
+    in _idCatalogUser int,
+    in _name varchar(35),
+    in _password varchar(35))
 begin
-    set @idPerson = (select idPerson from personEnterprise where personEnterprise.idPersonEnterprise = _idPersonEnterprise);
+    set @idPerson = (select idPerson from personUser where personUser.idPersonUser = _idPersonUser);
     update person set idCatalogGenre = _idCatalogGenre,
                       name = _personName,
                       lastName = _lastName,
@@ -155,68 +117,60 @@ begin
                       direction = _personDirection,
                       phone = _phone where idPerson = @idPerson;
 
-    set @idEnterprise = (select idEnterprise from personEnterprise where personEnterprise.idPersonEnterprise = _idPersonEnterprise );
-    update enterprise set ruc = _ruc,
-                      direction = _enterpriseDirection,
-                      telephone = _telephone,
-                      name = _enterpriseName where idEnterprise = @idEnterprise;
+    update personUser set idCatalogUser = _idCatalogUser,
+                      name = _name,
+                      password = _password where idPersonUser = _idPersonUser;
 
-    call gotoIdPersonEnterprise(_idPersonEnterprise,1);
+    call gotoIdPersonUser(_idPersonUser,1);
 end
 //
 
-call updatePersonEnterprise(
-   8,
-    2,
-    "Hernan",
-    "Sandoval",
-    "hsandoval1@hotmail.com",
+call fetchPersonUser(1);
+call updatePersonUser(
+   3,
+    1,
+    "Priscila",
+    "Guianella",
+    "priscila@hotmail.com",
     "Av. Las Calezas 283",
     "926706605",
-    "454545454",
-    "324324324",
-    "42342342",
-    "LeonStar"
+    2,
+    "Priscila",
+    "42342342"
     );
 
-drop procedure if exists deletePersonEnterprise;
+drop procedure if exists deletePersonUser;
 delimiter //
-create procedure deletePersonEnterprise(
-    in _idPersonEnterprise int,
+create procedure deletePersonUser(
+    in _idPersonUser int,
     in _idCatalogStatus int)
 begin
-    set @idPerson = (select idPerson from personEnterprise where idPersonEnterprise = _idPersonEnterprise);
+    set @idPerson = (select idPerson from personUser where idPersonUser = _idPersonUser);
     update person set idCatalogStatus = _idCatalogStatus where idPerson = @idPerson;
 
-    set @idEnterprise = (select idEnterprise from personEnterprise where idPersonEnterprise = _idPersonEnterprise);
-    update enterprise set idCatalogStatus = _idCatalogStatus where idEnterprise = @idEnterprise;
+    update personUser set idCatalogStatus = _idCatalogStatus where idPersonUser = _idPersonUser;
 
-    update personEnterprise set idCatalogStatus = _idCatalogStatus where idPersonEnterprise = _idPersonEnterprise;
-
-    call gotoIdPersonEnterprise(_idPersonEnterprise, _idCatalogStatus);
+    call gotoIdPersonUser(_idPersonUser, _idCatalogStatus);
 end
 //
 
-drop procedure if exists searchPersonEnterprise;
+drop procedure if exists searchPersonUser;
 delimiter //
-create procedure searchPersonEnterprise(
+create procedure searchPersonUser(
     in _param varchar(35)
 )
 begin
-    select personenterprise.idPersonEnterprise,
-           person.idPerson,
-           person.name,
-           person.lastName,
-           person.email,
-           person.direction,
-           person.phone,
-           enterprise.idEnterprise,
-           enterprise.ruc,
-           enterprise.direction,
-           enterprise.telephone,
-           enterprise.name
-    from personEnterprise
-             inner join person on personenterprise.idPerson = person.idPerson
-             inner join enterprise on personEnterprise.idEnterprise = enterprise.idEnterprise
-    where person.name like concat('%', _param, '%') and personenterprise.idCatalogStatus = 1;
+    select  personUser.idPersonUser,
+            catalogUser.name as username,
+            person.idPerson,
+            person.name,
+            person.lastName,
+            person.email,
+            person.direction,
+            person.phone
+    from personUser
+             inner join catalogUser on catalogUser.idCatalogUser = personUser.idCatalogUser
+             inner join person on person.idPerson = personUser.idPerson
+
+    where person.name like concat('%', _param, '%') and personUser.idCatalogStatus = 1;
 end //

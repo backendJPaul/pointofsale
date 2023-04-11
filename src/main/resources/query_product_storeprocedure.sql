@@ -10,127 +10,78 @@ end //
 
 call test(8);
 
-drop procedure if exists savePerson;
-delimiter //
-create procedure savePerson(in _idCatalogGenre int,
-                            in _name varchar(35),
-                            in _lastName varchar(35),
-                            in _email varchar(35),
-                            in _direction varchar(35),
-                            in _phone varchar(9))
-begin
-    insert person(idCatalogGenre, name, lastName, email, direction, phone, idCatalogStatus)
-    values (_idCatalogGenre, _name, _lastName, _email, _direction, _phone, 1);
-end //
+select * from enterprise;
 
-drop procedure if exists saveEnterprise;
-delimiter //
-create procedure saveEnterprise(
-    in _ruc varchar(11),
-    in _direction varchar(35),
-    in _telephone varchar(9),
-    in _name varchar(35))
-begin
-    insert into enterprise(ruc, direction, telephone, name)
-    values (_ruc, _direction, _telephone, _name);
-end //
 
-drop procedure if exists fetchPersonEnterprise;
-create procedure fetchPersonEnterprise(
+
+drop procedure if exists fetchProduct;
+create procedure fetchProduct(
     in _idCatalogStatus int
 )
 begin
-    select personenterprise.idPersonEnterprise,
-           person.idPerson,
-           person.name,
-           person.lastName,
-           person.email,
-           person.direction,
-           person.phone,
-           enterprise.idEnterprise,
-           enterprise.ruc,
-           enterprise.direction,
-           enterprise.telephone,
-           enterprise.name
-           from personEnterprise
-           inner join person on personenterprise.idPerson = person.idPerson
-           inner join enterprise on personEnterprise.idEnterprise = enterprise.idEnterprise
-    where personenterprise.idCatalogStatus = _idCatalogStatus;
+    select product.idProduct,
+           product.name,
+           product.idCategory,
+           category.name as category,
+           product.idEnterprise,
+           enterprise.name as enterprise,
+           product.idCatalogGenre,
+           catalogGenre.name genre
+    from product
+             inner join category on category.idCategory = product.idCategory
+             inner join enterprise on enterprise.idEnterprise = product.idEnterprise
+             inner join catalogGenre on catalogGenre.idCatalogGenre = product.idCatalogGenre
+             where product.idCatalogStatus = _idCatalogStatus;
 end
 //
 
-drop procedure if exists gotoIdPersonEnterprise;
+call fetchProduct(1);
+
+drop procedure if exists gotoIdProduct;
 delimiter //
-create procedure gotoIdPersonEnterprise(
-    in _idPersonEnterprise int,
+create procedure gotoIdProduct(
+    in _idProduct int,
     in _idCatalogStatus int)
 begin
-    select personenterprise.idPersonEnterprise,
-           person.idPerson,
-           person.name,
-           person.lastName,
-           person.email,
-           person.direction,
-           person.phone,
-           enterprise.idEnterprise,
-           enterprise.ruc,
-           enterprise.direction,
-           enterprise.telephone,
-           enterprise.name
-    from personEnterprise
-             inner join
-         person on personenterprise.idPerson = person.idPerson
-             inner join
-         enterprise on personEnterprise.idEnterprise = enterprise.idEnterprise
-    where idPersonEnterprise = _idPersonEnterprise
-      and personenterprise.idCatalogStatus = _idCatalogStatus;
+    select product.idProduct,
+           product.name,
+           product.idCategory,
+           category.name as category,
+           product.idEnterprise,
+           enterprise.name as enterprise,
+           product.idCatalogGenre,
+           catalogGenre.name genre
+    from product
+             inner join category on category.idCategory = product.idCategory
+             inner join enterprise on enterprise.idEnterprise = product.idEnterprise
+             inner join catalogGenre on catalogGenre.idCatalogGenre = product.idCatalogGenre
+    where product.idCatalogStatus = _idCatalogStatus and product.idProduct = _idProduct;
 end
 //
 
-drop procedure if exists savePersonEnterprise;
+describe product;
+
+drop procedure if exists saveProduct;
 delimiter //
-create procedure savePersonEnterprise(
-    in _idCatalogGenre int,
-    in _personName varchar(35),
-    in _lastName varchar(35),
-    in _email varchar(35),
-    in _personDirection varchar(35),
-    in _phone varchar(9),
-    in _ruc varchar(35),
-    in _enterpriseDirection varchar(35),
-    in _telephone varchar(9),
-    in _enterpriseName varchar(35))
+create procedure saveProduct(
+    in _name varchar(35),
+    in _idCategory int,
+    in _idEnterprise int,
+    in _idCatalogGenre int)
 begin
-    declare keyIdPerson int default 0;
-    declare keyIdEnterprise int default 0;
-    declare keyIdPersonEnterprise int default 0;
 
-    insert into person(idCatalogGenre, name, lastName, email, direction, phone, idCatalogStatus)
-    values (_idCatalogGenre, _personName, _lastName, _email, _personDirection, _phone, 1);
-    set keyIdPerson = last_insert_id();
+    insert into product(name, idCategory, idEnterprise, idCatalogGenre, idCatalogStatus)
+    values (_name, _idCategory, _idEnterprise,_idCatalogGenre,1);
 
-    insert into enterprise(ruc, direction, telephone, name, idCatalogStatus)
-    values (_ruc, _enterpriseDirection, _telephone, _enterpriseName, 1);
-    set keyIdEnterprise = last_insert_id();
-
-    insert into personEnterprise(idPerson, idEnterprise, idCatalogStatus)
-    values (keyIdPerson,keyIdEnterprise,1);
-    set keyIdPersonEnterprise = last_insert_id();
-
-    call fetchPersonEnterprise(1);
+    call gotoIdProduct(last_insert_id(), 1);
 end
 //
 
-call savePersonEnterprise(1,
-    "Liz",
-    "Povis",
-    "anabelalbornos@gmail.com",
-    "Av. restauracion 285",
-    "926703234",
-    "10423446751",
-    "Av restauracion 2234",
-    "926703605",
-    "C J Estilos");
+call saveProduct("3 botones sin rasgado",
+                 1,
+                 1,
+                 1
+);
 
 drop procedure if exists updatePersonEnterprise;
 delimiter //
