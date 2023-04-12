@@ -10,7 +10,7 @@ create table catalogGenre
 (
     idCatalogGenre int auto_increment,
     primary key (idCatalogGenre),
-    name varchar(2)
+    name varchar(10)
 );
 
 create table catalogSize

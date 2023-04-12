@@ -1,6 +1,3 @@
-drop database if exists posstore;
-
-create database posstore;
 
 drop table if exists person;
 create table person
@@ -84,22 +81,6 @@ create table customer
     foreign key (idPerson) references person (idPerson)
 );
 
-drop table if exists expense;
-create table expense
-(
-    idExpense       int auto_increment,
-    primary key (idExpense),
-    title           varchar(35),
-    description     tinytext,
-    date            timestamp,
-    quantity        int,
-    idDetailProduct int,
-    foreign key (idDetailProduct) references detailProduct (idDetailProduct),
-
-    idCatalogStatus int,
-    foreign key (idCatalogStatus) references catalogStatus (idCatalogStatus)
-);
-
 create table category
 (
     idCategory      int auto_increment,
@@ -108,7 +89,6 @@ create table category
     idCatalogStatus int,
     foreign key (idCatalogStatus) references catalogStatus (idCatalogStatus)
 );
-
 
 create table product
 (
@@ -126,10 +106,14 @@ create table product
 
 );
 
+drop table if exists detailProduct;
 create table detailProduct
 (
     idDetailProduct int auto_increment,
     primary key (idDetailProduct),
+
+    idProduct int,
+    foreign key (idProduct) references product(idProduct),
 
     idCatalogSize   int,
     foreign key (idCatalogSize) references catalogSize (idCatalogSize),
@@ -139,6 +123,21 @@ create table detailProduct
 
     salePrice       double(9, 2),
     purchasePrice   double(9, 2),
+
+    idCatalogStatus int,
+    foreign key (idCatalogStatus) references catalogStatus (idCatalogStatus)
+);
+drop table if exists expense;
+create table expense
+(
+    idExpense       int auto_increment,
+    primary key (idExpense),
+    title           varchar(35),
+    description     tinytext,
+    date            timestamp,
+    quantity        int,
+    idDetailProduct int,
+    foreign key (idDetailProduct) references detailProduct (idDetailProduct),
 
     idCatalogStatus int,
     foreign key (idCatalogStatus) references catalogStatus (idCatalogStatus)
@@ -209,13 +208,3 @@ create table saleDetail
     idCatalogStatus int,
     foreign key (idCatalogStatus) references catalogStatus (idCatalogStatus)
 );
-
-
-insert into user(name)
-values ("admin");
-insert into user(name)
-values ("saler");
-insert into user(name)
-values ("database");
-
-call fetchCategory(1);
