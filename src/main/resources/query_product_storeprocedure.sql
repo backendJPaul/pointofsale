@@ -1,20 +1,5 @@
-drop procedure if exists test;
-delimiter //
-create procedure test(
-    in _idPersonEnterprise int
-)
-begin
-    set @idPerson = (select idPerson from personEnterprise where personEnterprise.idPersonEnterprise = _idPersonEnterprise);
-    select @idPerson;
-end //
-
-call test(8);
-
-select * from enterprise;
-
-
-
 drop procedure if exists fetchProduct;
+delimiter //
 create procedure fetchProduct(
     in _idCatalogStatus int
 )
@@ -32,8 +17,7 @@ begin
              inner join enterprise on enterprise.idEnterprise = product.idEnterprise
              inner join catalogGenre on catalogGenre.idCatalogGenre = product.idCatalogGenre
              where product.idCatalogStatus = _idCatalogStatus;
-end
-//
+end //
 
 call fetchProduct(1);
 
@@ -78,6 +62,14 @@ end
 //
 
 
+call saveProduct("Quasila 3 botones",1,1,1);
+call saveProduct("Jinju 1 boton",1,1,1);
+call saveProduct("Polera color entero",1,1,1);
+call saveProduct("Falda",1,1,1);
+call saveProduct("Short",1,1,1);
+call saveProduct("Polos kitty",1,1,1);
+call saveProduct("Polo Naruto",1,1,1);
+
 drop procedure if exists updateProduct;
 delimiter //
 create procedure updateProduct(
@@ -98,13 +90,6 @@ begin
     call gotoIdProduct(_idProduct, 1);
 end
 //
-call updateProduct(
-   7,
-    "Polera",
-    1,
-    1,
-    2
-    );
 
 drop procedure if exists deleteProduct;
 delimiter //

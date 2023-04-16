@@ -1,17 +1,3 @@
-drop procedure if exists test;
-delimiter //
-create procedure test(
-    in _idPersonEnterprise int
-)
-begin
-    set @idPerson = (select idPerson from personEnterprise where personEnterprise.idPersonEnterprise = _idPersonEnterprise);
-    select @idPerson;
-end //
-
-call test(8);
-
-call fetchPersonEnterprise(1);
-
 drop procedure if exists savePerson;
 delimiter //
 create procedure savePerson(in _idCatalogGenre int,
@@ -33,17 +19,9 @@ create procedure saveEnterprise(
     in _telephone varchar(9),
     in _name varchar(35))
 begin
-    insert into enterprise(ruc, direction, telephone, name)
-    values (_ruc, _direction, _telephone, _name);
+    insert into enterprise(name, ruc, direction, telephone, idCatalogStatus)
+    values (_name, _ruc, _direction, _telephone, 1);
 end //
-
-call saveEnterprise(
-    "10402314",
-    "gamarra",
-    "2343232",
-    "Quasila"
-    );
-
 
 drop procedure if exists fetchPersonEnterprise;
 create procedure fetchPersonEnterprise(
@@ -58,10 +36,10 @@ begin
            person.direction,
            person.phone,
            enterprise.idEnterprise,
+           enterprise.name,
            enterprise.ruc,
            enterprise.direction,
-           enterprise.telephone,
-           enterprise.name
+           enterprise.telephone
            from personEnterprise
            inner join person on personenterprise.idPerson = person.idPerson
            inner join enterprise on personEnterprise.idEnterprise = enterprise.idEnterprise
@@ -83,10 +61,10 @@ begin
            person.direction,
            person.phone,
            enterprise.idEnterprise,
+           enterprise.name,
            enterprise.ruc,
            enterprise.direction,
-           enterprise.telephone,
-           enterprise.name
+           enterprise.telephone
     from personEnterprise
              inner join
          person on personenterprise.idPerson = person.idPerson
@@ -100,27 +78,29 @@ end
 drop procedure if exists savePersonEnterprise;
 delimiter //
 create procedure savePersonEnterprise(
-    in _idCatalogGenre int,
     in _personName varchar(35),
     in _lastName varchar(35),
     in _email varchar(35),
     in _personDirection varchar(35),
     in _phone varchar(9),
+    in _idCatalogGenre int,
+    in _enterpriseName varchar(35),
     in _ruc varchar(35),
     in _enterpriseDirection varchar(35),
-    in _telephone varchar(9),
-    in _enterpriseName varchar(35))
+    in _telephone varchar(9))
 begin
     declare keyIdPerson int default 0;
     declare keyIdEnterprise int default 0;
     declare keyIdPersonEnterprise int default 0;
 
-    insert into person(idCatalogGenre, name, lastName, email, direction, phone, idCatalogStatus)
-    values (_idCatalogGenre, _personName, _lastName, _email, _personDirection, _phone, 1);
+    insert into person(name, lastName, email, direction, phone, idCatalogGenre, idCatalogStatus)
+    values (_personName, _lastName, _email, _personDirection, _phone, _idCatalogGenre, 1);
     set keyIdPerson = last_insert_id();
 
-    insert into enterprise(ruc, direction, telephone, name, idCatalogStatus)
-    values (_ruc, _enterpriseDirection, _telephone, _enterpriseName, 1);
+    describe enterprise;
+
+    insert into enterprise(name, ruc, direction, telephone,  idCatalogStatus)
+    values (_enterpriseName, _ruc, _enterpriseDirection, _telephone, 1);
     set keyIdEnterprise = last_insert_id();
 
     insert into personEnterprise(idPerson, idEnterprise, idCatalogStatus)
@@ -131,39 +111,62 @@ begin
 end
 //
 
-call savePersonEnterprise(1,
-    "Liz",
-    "Povis",
-    "anabelalbornos@gmail.com",
-    "Av. restauracion 285",
-    "926703234",
-    "10423446751",
-    "Av restauracion 2234",
-    "926703605",
-    "C J Estilos");
+call savePersonEnterprise("Liz",
+                          "Povis",
+                          "lpovis@gmail.com",
+                          "Av Restauracion 222",
+                          "99834839",
+                          1,
+                          "Leoncito",
+                          "32312312",
+                          "Av. Lorenzo Encalada 178",
+                          "432432432");
+
+call savePersonEnterprise("Walter",
+                          "Leon",
+                          "lwalter@gmail.com",
+                          "Av Restauracion 222",
+                          "99834839",
+                          1,
+                          "Leon Sport",
+                          "32312312",
+                          "Av. Lorenzo Encalada 178",
+                          "432432432");
+call savePersonEnterprise("Cesia",
+                          "Lein",
+                          "cleon@gmail.com",
+                          "Av Restauracion 222",
+                          "99834839",
+                          1,
+                          "CJ Estilos",
+                          "32312312",
+                          "Av. Lorenzo Encalada 178",
+                          "432432432");
 
 drop procedure if exists updatePersonEnterprise;
 delimiter //
 create procedure updatePersonEnterprise(
     in _idPersonEnterprise int,
-    in _idCatalogGenre int,
     in _personName varchar(35),
     in _lastName varchar(35),
     in _email varchar(35),
     in _personDirection varchar(35),
     in _phone varchar(9),
+    in _idCatalogGenre int,
     in _ruc varchar(35),
     in _enterpriseDirection varchar(35),
     in _telephone varchar(9),
     in _enterpriseName varchar(35))
 begin
     set @idPerson = (select idPerson from personEnterprise where personEnterprise.idPersonEnterprise = _idPersonEnterprise);
-    update person set idCatalogGenre = _idCatalogGenre,
-                      name = _personName,
+    update person set name = _personName,
                       lastName = _lastName,
                       email = _email,
                       direction = _personDirection,
-                      phone = _phone where idPerson = @idPerson;
+                      phone = _phone,
+                      idCatalogGenre = _idCatalogGenre
+                      where idPerson = @idPerson;
+
 
     set @idEnterprise = (select idEnterprise from personEnterprise where personEnterprise.idPersonEnterprise = _idPersonEnterprise );
     update enterprise set ruc = _ruc,
@@ -174,20 +177,6 @@ begin
     call gotoIdPersonEnterprise(_idPersonEnterprise,1);
 end
 //
-
-call updatePersonEnterprise(
-   8,
-    2,
-    "Hernan",
-    "Sandoval",
-    "hsandoval1@hotmail.com",
-    "Av. Las Calezas 283",
-    "926706605",
-    "454545454",
-    "324324324",
-    "42342342",
-    "LeonStar"
-    );
 
 drop procedure if exists deletePersonEnterprise;
 delimiter //

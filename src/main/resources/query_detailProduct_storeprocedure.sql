@@ -1,23 +1,17 @@
-drop procedure if exists test;
-delimiter //
-create procedure test(
-    in _idPersonEnterprise int
-)
-begin
-    set @idPerson = (select idPerson from personEnterprise where personEnterprise.idPersonEnterprise = _idPersonEnterprise);
-    select @idPerson;
-end //
+select detailProduct.idDetailProduct
+       from detailproduct
+       inner join product on detailProduct.idProduct = product.idProduct;
 
-call test(8);
-
-describe detailProduct;
 
 drop procedure if exists fetchDetailProduct;
+delimiter //
 create procedure fetchDetailProduct(
     in _idCatalogStatus int
 )
 begin
     select idDetailProduct,
+           detailProduct.idProduct,
+           product.name as product,
            detailProduct.idCatalogSize,
            catalogSize.name as size,
            detailProduct.idCatalogColor,
@@ -25,14 +19,12 @@ begin
            detailProduct.salePrice,
            detailProduct.purchasePrice
     from detailProduct
+             inner join product on detailProduct.idProduct = product.idProduct
              inner join catalogSize on detailProduct.idCatalogSize = catalogSize.idCatalogSize
              inner join catalogColor on detailProduct.idCatalogColor = catalogColor.idCatalogColor
-             inner join product on detailProduct.idProduct = product.idProduct
-    where detailProduct.idCatalogStatus = _idCatalogStatus;
+    where detailProduct.idCatalogStatus = 1;
 end
 //
-
-call fetchProduct(1);
 
 drop procedure if exists gotoIdDetailProduct;
 delimiter //
@@ -40,7 +32,8 @@ create procedure gotoIdDetailProduct(
     in _idDetailProduct int,
     in _idCatalogStatus int)
 begin
-    select detailProduct.idDetailProduct,
+    select idDetailProduct,
+           product.name as product,
            detailProduct.idCatalogSize,
            catalogSize.name as size,
            detailProduct.idCatalogColor,
@@ -48,30 +41,58 @@ begin
            detailProduct.salePrice,
            detailProduct.purchasePrice
     from detailProduct
+             inner join product on detailProduct.idProduct = product.idProduct
              inner join catalogSize on detailProduct.idCatalogSize = catalogSize.idCatalogSize
              inner join catalogColor on detailProduct.idCatalogColor = catalogColor.idCatalogColor
-    where detailProduct.idCatalogStatus = _idCatalogStatus and detailProduct.idDetailProduct = _idDetailProduct;
+    where detailProduct.idDetailProduct = _idDetailProduct and detailProduct.idCatalogStatus = _idCatalogStatus;
+
 end
 //
-
-describe detailProduct;
 
 drop procedure if exists saveDetailProduct;
 delimiter //
 create procedure saveDetailProduct(
+    in _idProduct int,
     in _idCatalogSize int,
     in _idCatalogColor int,
     in _salePrice int,
     in _purchasePrice int)
 begin
-    insert into detailProduct(idCatalogSize, idCatalogColor, salePrice, purchasePrice, idCatalogStatus)
-    values (_idCatalogSize, _idCatalogColor, _salePrice, _purchasePrice, 1) ;
+    insert into detailProduct(idProduct, idCatalogSize, idCatalogColor, salePrice, purchasePrice, idCatalogStatus)
+    values (_idProduct, _idCatalogSize, _idCatalogColor, _salePrice, _purchasePrice, 1) ;
 
     call gotoIdDetailProduct(last_insert_id(), 1);
 end
 //
 
-call saveDetailProduct(2,2,6000,900);
+insert into detailProduct(idProduct, idCatalogSize, idCatalogColor, salePrice, purchasePrice, idCatalogStatus)
+values (idProduct, idCatalogSize, idCatalogColor, salePrice, purchasePrice, 1);
+
+
+insert into detailProduct(idProduct, idCatalogSize, idCatalogColor, salePrice, purchasePrice, idCatalogStatus)
+values (idProduct, idCatalogSize, idCatalogColor, salePrice, purchasePrice, 1);
+
+call saveDetailProduct(
+    1,
+    1,
+    1,
+    900,
+    800);
+
+call saveDetailProduct(
+        2,
+        2,
+        3,
+        200,
+        4500);
+
+
+call saveDetailProduct(
+        3,
+        3,
+        3,
+        600,
+        1000);
 
 drop procedure if exists updateDetailProduct;
 delimiter //
@@ -92,13 +113,6 @@ begin
     call gotoIdProduct(_idDetailProduct, 1);
 end
 //
-call updateDetailProduct(
-   3,
-    2,
-    3,
-    101,
-    2003
-    );
 
 drop procedure if exists deleteDetailProduct;
 delimiter //
@@ -113,17 +127,14 @@ begin
 end
 //
 
-call deleteDetailProduct(2,2);
-
-call fetchDetailProduct(1);
-
 drop procedure if exists searchDetailProduct;
 delimiter //
 create procedure searchDetailProduct(
     in _param varchar(35)
 )
 begin
-    select idDetailProduct,
+    select detailProduct.idDetailProduct,
+           product.name,
            detailProduct.idCatalogSize,
            catalogSize.name as size,
            detailProduct.idCatalogColor,
@@ -131,7 +142,8 @@ begin
            detailProduct.salePrice,
            detailProduct.purchasePrice
     from detailProduct
+            inner join product on detailProduct.idProduct = product.idProduct
              inner join catalogSize on detailProduct.idCatalogSize = catalogSize.idCatalogSize
              inner join catalogColor on detailProduct.idCatalogColor = catalogColor.idCatalogColor
-    where detailProduct. detailProduct.idCatalogStatus = 1;
+    where product.name like concat('%',_param,'%') and detailProduct.idCatalogStatus = detailProduct.idCatalogStatus = 1;
 end //

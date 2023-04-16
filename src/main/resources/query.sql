@@ -1,16 +1,16 @@
-
+use posstore;
 drop table if exists person;
 create table person
 (
-    idPerson        int auto_increment,
+    idPerson int auto_increment,
     primary key (idPerson),
+    name varchar(35),
+    lastName varchar(35),
+    email varchar(35),
+    direction varchar(35),
+    phone varchar(9),
     idCatalogGenre  int,
     foreign key (idCatalogGenre) references catalogGenre (idCatalogGenre),
-    name            varchar(35),
-    lastName        varchar(35),
-    email           varchar(35),
-    direction       varchar(35),
-    phone           varchar(9),
     idCatalogStatus int,
     foreign key (idCatalogStatus) references catalogStatus (idCatalogStatus)
 );
@@ -18,12 +18,12 @@ create table person
 drop table if exists enterprise;
 create table enterprise
 (
-    idEnterprise    int auto_increment,
+    idEnterprise int auto_increment,
     primary key (idEnterprise),
-    ruc             varchar(11),
-    direction       varchar(35),
-    telephone       varchar(9),
-    name            varchar(35),
+    name varchar(35),
+    ruc varchar(11),
+    direction varchar(35),
+    telephone varchar(9),
     idCatalogStatus int,
     foreign key (idCatalogStatus) references catalogStatus (idCatalogStatus)
 );
@@ -46,12 +46,12 @@ create table personUser
 (
     idPersonUser int auto_increment,
     primary key (idPersonUser),
+    name varchar(35),
+    password varchar(35),
     idCatalogUser int,
     foreign key (idCatalogUser) references catalogUser(idCatalogUser),
     idPerson int,
     foreign key (idPerson) references person (idPerson),
-    name varchar(35),
-    password varchar(35),
     idCatalogStatus int,
     foreign key (idCatalogStatus) references catalogStatus (idCatalogStatus)
 );
@@ -61,12 +61,9 @@ create table login
 (
     idLogin int auto_increment,
     primary key (idLogin),
-
     idPersonUser int,
     foreign key (idPersonUser) references personUser (idPersonUser),
-
     dateLogin timestamp default current_timestamp,
-
     idCatalogStatus int,
     foreign key (idCatalogStatus) references catalogStatus (idCatalogStatus)
 );
@@ -76,7 +73,6 @@ create table customer
 (
     idCustomer int auto_increment,
     primary key (idCustomer),
-
     idPerson   int,
     foreign key (idPerson) references person (idPerson)
 );
@@ -111,19 +107,14 @@ create table detailProduct
 (
     idDetailProduct int auto_increment,
     primary key (idDetailProduct),
-
     idProduct int,
     foreign key (idProduct) references product(idProduct),
-
-    idCatalogSize   int,
+    idCatalogSize int,
     foreign key (idCatalogSize) references catalogSize (idCatalogSize),
-
-    idCatalogColor  int,
+    idCatalogColor int,
     foreign key (idCatalogColor) references catalogColor (idCatalogColor),
-
-    salePrice       double(9, 2),
-    purchasePrice   double(9, 2),
-
+    salePrice double(9, 2),
+    purchasePrice double(9, 2),
     idCatalogStatus int,
     foreign key (idCatalogStatus) references catalogStatus (idCatalogStatus)
 );
@@ -132,16 +123,30 @@ create table expense
 (
     idExpense       int auto_increment,
     primary key (idExpense),
-    title           varchar(35),
-    description     tinytext,
+
     date            timestamp,
     quantity        int,
+
+    idCatalogUser int,
+    foreign key(idCatalogUser) references catalogUser(idCatalogUser),
+
     idDetailProduct int,
     foreign key (idDetailProduct) references detailProduct (idDetailProduct),
 
     idCatalogStatus int,
     foreign key (idCatalogStatus) references catalogStatus (idCatalogStatus)
 );
+/*
+drop table if exists expenseDetail;
+create table if not exists expenseDetail(
+  idExpenseDetail int auto_increment,
+  primary key(idExpenseDetail),
+  date timestamp,
+  quantity int,
+  idDetailProduct int,
+  foreign key(idDetailProduct ) references detailproduct(idDetailProduct)
+);
+*/
 
 create table inventoryDetailProduct
 (
@@ -182,6 +187,9 @@ create table sale
     discount        double,
     subtotal        double,
     total           double(9, 2),
+
+    idCatalogUser int,
+    foreign key(idCatalogUser) references catalogUser(idCatalogUser),
 
     idPayment       int,
     foreign key (idPayment) references payment (idPayment),

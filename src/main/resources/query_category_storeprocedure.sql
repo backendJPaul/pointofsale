@@ -61,4 +61,11 @@ begin
 end //
 
 /* store procedures enterprisePerson */
-
+call saveCategory("Joggers");
+call saveCategory("Pantalon");
+call saveCategory("Blusas");
+call saveCategory("Camisas");
+call saveCategory("Polos");
+call saveCategory("Casacas");
+call saveCategory("Shorts");
+call saveCategory("Palazos");

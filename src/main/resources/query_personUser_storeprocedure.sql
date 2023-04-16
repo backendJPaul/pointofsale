@@ -1,23 +1,11 @@
-drop procedure if exists test;
-delimiter //
-create procedure test(
-    in _idPersonUser int
-)
-begin
-    set @idPerson = (select idPerson from personUser where personEnterprise.idPersonUser = _idPersonEnterprise);
-    select @idPerson;
-end //
-
-call test(8);
-
-describe personUser;
-
 drop procedure if exists fetchPersonUser;
+delimiter //
 create procedure fetchPersonUser(
     in _idCatalogStatus int
 )
 begin
     select  personUser.idPersonUser,
+            catalogUser.idCatalogUser,
             catalogUser.name as username,
             person.idPerson,
             person.name,
@@ -40,6 +28,7 @@ create procedure gotoIdPersonUser(
     in _idCatalogStatus int)
 begin
     select  personUser.idPersonUser,
+            catalogUser.idCatalogUser,
             catalogUser.name as username,
             person.idPerson,
             person.name,
@@ -54,17 +43,15 @@ begin
 end
 //
 
-describe personUser;
-
 drop procedure if exists savePersonUser;
 delimiter //
 create procedure savePersonUser(
-    in _idCatalogGenre int,
     in _personName varchar(35),
     in _lastName varchar(35),
     in _email varchar(35),
     in _personDirection varchar(35),
     in _phone varchar(9),
+    in _idCatalogGenre int,
     in _idCatalogUser int,
     in _name varchar(35),
     in _password varchar(35)
@@ -73,27 +60,54 @@ begin
     declare keyIdPerson int default 0;
     declare keyIdPersonUser int default 0;
 
-    insert into person(idCatalogGenre, name, lastName, email, direction, phone, idCatalogStatus)
-    values (_idCatalogGenre, _personName, _lastName, _email, _personDirection, _phone, 1);
+    insert into person(name, lastName, email, direction, phone,idCatalogGenre, idCatalogStatus)
+    values (_personName, _lastName, _email, _personDirection, _phone,_idCatalogGenre, 1);
     set keyIdPerson = last_insert_id();
 
     insert into personUser(idCatalogUser, idPerson, name, password, idCatalogStatus)
     values (_idCatalogUser, keyIdPerson, _name, _password, 1);
     set keyIdPersonUser = last_insert_id();
 
-    call gotoIdPersonUser(keyIdPerson,1);
+    call gotoIdPersonUser(keyIdPersonUser,1);
 end
 //
 
-call savePersonUser(1,
+call savePersonUser(
     "Heidi",
     "Huamani",
-    "heidi@gmail.com",
-    "Pasaje Jupiter 120",
-    "953105002",
+    "hhuamani@gmail.com",
+    "Av. Lorenzo Encalada 178",
+    "234345456",
     1,
+    2,
     "hhuamani",
     "root");
+
+call gotoIdPersonUser(1,1);
+
+call updatePersonUser(
+        3,
+        1,
+        "Keila",
+        "Guianella",
+        "priscila@hotmail.com",
+        "Av. Las Calezas 283",
+        "926706605",
+        2,
+        "Priscila",
+        "42342342"
+    );
+
+call savepersonuser(
+        "cesia",
+        "leon",
+        "cleon@gmail.com",
+        "encalada 189a",
+        "234345456",
+        2,
+        2,
+        "aalbornos",
+        "root");
 
 drop procedure if exists updatePersonUser;
 delimiter //
@@ -125,20 +139,6 @@ begin
 end
 //
 
-call fetchPersonUser(1);
-call updatePersonUser(
-   3,
-    1,
-    "Priscila",
-    "Guianella",
-    "priscila@hotmail.com",
-    "Av. Las Calezas 283",
-    "926706605",
-    2,
-    "Priscila",
-    "42342342"
-    );
-
 drop procedure if exists deletePersonUser;
 delimiter //
 create procedure deletePersonUser(
@@ -161,6 +161,7 @@ create procedure searchPersonUser(
 )
 begin
     select  personUser.idPersonUser,
+            catalogUser.idCatalogUser,
             catalogUser.name as username,
             person.idPerson,
             person.name,
@@ -174,3 +175,5 @@ begin
 
     where person.name like concat('%', _param, '%') and personUser.idCatalogStatus = 1;
 end //
+
+call fetchPersonUser(1);
