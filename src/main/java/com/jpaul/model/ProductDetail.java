@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "productDetail")
+@Table(name = "product_detail")
 public class ProductDetail {
 
     private static final long SerialVersionLONG = 1L;
@@ -19,6 +19,15 @@ public class ProductDetail {
     @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
+    private double purchasePrice;
+
+    @Column(nullable = false)
+    private double salePrice;
+
+    @Column(nullable = false)
+    private int stock;
+
     @Enumerated(EnumType.STRING)
     EColor color;
 
@@ -26,7 +35,7 @@ public class ProductDetail {
     ESize size;
 
     @ManyToOne
-    @JoinColumn(name = "productDetail_id", nullable = false)
+    @JoinColumn(name = "product_detail_id", nullable = false)
     private Product product;
 
 }

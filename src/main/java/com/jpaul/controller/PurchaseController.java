@@ -35,4 +35,13 @@ public class PurchaseController{
         Purchase purchase = iPurchaseService.save(_purchase);
         return new ResponseEntity<>(purchase, HttpStatus.CREATED);
     }
+
+    @PostMapping("{id}")
+    public ResponseEntity<Purchase> update(@PathVariable("id") Long id){
+        //Purchase purchase = iPurchaseService.up
+        //return new ResponseEntity<>(purchase, HttpStatus.OK);
+        return null;
+    }
+
+    //TODO update stock + stock
 }

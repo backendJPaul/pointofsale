@@ -31,4 +31,9 @@ public class PurchaseServiceImpl implements IPurchaseService{
         Purchase purchase = iPurchaseRepository.save(_purchase);
         return purchase;
     }
+
+    @Override
+    public Purchase update(Long id, Purchase _purchase) {
+        return null;
+    }
 }

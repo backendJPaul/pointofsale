@@ -24,7 +24,13 @@ public class Purchase {
     @Column(name = "stock", nullable = false)
     private int stock;
 
+    @ManyToOne
+    @JoinColumn(name = "product_detail_id", nullable = false)
+    private ProductDetail productDetail;
 
+    @ManyToOne
+    @JoinColumn(name = "enterprise_id", nullable = false)
+    private Enterprise enterprise;
 
 }
 

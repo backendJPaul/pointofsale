@@ -8,4 +8,5 @@ public interface IProductDetailService {
     List<ProductDetail> findAll();
     ProductDetail findById(Long id);
     ProductDetail save(ProductDetail _productDetail);
+    ProductDetail update(Long id, ProductDetail _productDetail);
 }

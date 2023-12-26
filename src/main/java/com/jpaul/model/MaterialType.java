@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Entity
 @Data
-@Table(name = "materialType")
+@Table(name = "material_type")
 public class MaterialType implements Serializable {
 
     private static final long SerialVersionLONG = 1L;

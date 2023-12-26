@@ -32,4 +32,9 @@ public class ProductDetailServiceImpl implements IProductDetailService{
         ProductDetail productDetail = iProductDetailRepository.save(_productDetail);
         return productDetail;
     }
+
+    @Override
+    public ProductDetail update(Long id, ProductDetail _productDetail) {
+        return null;
+    }
 }
