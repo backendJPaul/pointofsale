@@ -34,4 +34,10 @@ public class ProductDetailController{
         ProductDetail productDetail = iProductDetailService.save(_productDetail);
         return new ResponseEntity<>(productDetail, HttpStatus.CREATED);
     }
+
+    @PostMapping("{id}")
+    public ResponseEntity<ProductDetail> update(@PathVariable("id") Long id, @RequestBody ProductDetail _proProductDetail){
+        ProductDetail productDetail = iProductDetailService.update(id,_proProductDetail);
+        return new ResponseEntity<>(productDetail, HttpStatus.OK);
+    }
 }

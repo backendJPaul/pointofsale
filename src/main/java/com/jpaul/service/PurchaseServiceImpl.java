@@ -1,5 +1,6 @@
 package com.jpaul.service;
 
+import com.jpaul.model.ProductDetail;
 import com.jpaul.model.Purchase;
 import com.jpaul.repository.IPurchaseRepository;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ import java.util.Optional;
 public class PurchaseServiceImpl implements IPurchaseService{
 
     IPurchaseRepository iPurchaseRepository;
+    IProductDetailService iProductDetailService;
 
     @Override
     public List<Purchase> findAll() {
@@ -29,6 +31,10 @@ public class PurchaseServiceImpl implements IPurchaseService{
     @Override
     public Purchase save(Purchase _purchase) {
         Purchase purchase = iPurchaseRepository.save(_purchase);
+        ProductDetail productDetail = _purchase.getProductDetail();
+
+        productDetail.setStock(productDetail.getStock() + purchase.getStock());
+
         return purchase;
     }
 

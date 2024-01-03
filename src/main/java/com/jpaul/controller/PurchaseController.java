@@ -1,8 +1,10 @@
 package com.jpaul.controller;
 
 import com.jpaul.model.Enterprise;
+import com.jpaul.model.ProductDetail;
 import com.jpaul.model.Purchase;
 import com.jpaul.service.IEnterpriseService;
+import com.jpaul.service.IProductDetailService;
 import com.jpaul.service.IPurchaseService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import java.util.List;
 public class PurchaseController{
 
     private IPurchaseService iPurchaseService;
+    private IProductDetailService iProductDetailService;
 
     @GetMapping
     public ResponseEntity<List<Purchase>> findAll() {
@@ -33,6 +36,8 @@ public class PurchaseController{
     @PostMapping
     public ResponseEntity<Purchase> save(@RequestBody Purchase _purchase) {
         Purchase purchase = iPurchaseService.save(_purchase);
+        ProductDetail productDetail = iProductDetailService.findById(_purchase.getProductDetail().getId());
+        System.out.println(productDetail.toString());
         return new ResponseEntity<>(purchase, HttpStatus.CREATED);
     }
 

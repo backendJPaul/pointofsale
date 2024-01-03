@@ -1,6 +1,5 @@
 package com.jpaul.service;
 
-import com.jpaul.model.Product;
 import com.jpaul.model.ProductDetail;
 import com.jpaul.repository.IProductDetailRepository;
 import lombok.AllArgsConstructor;
@@ -35,6 +34,18 @@ public class ProductDetailServiceImpl implements IProductDetailService{
 
     @Override
     public ProductDetail update(Long id, ProductDetail _productDetail) {
+        ProductDetail productDetail = iProductDetailRepository.findById(id).get();
+        productDetail.setDescription(_productDetail.getDescription());
+        productDetail.setPurchasePrice(_productDetail.getPurchasePrice());
+        productDetail.setSalePrice(_productDetail.getSalePrice());
+        productDetail.setStock(_productDetail.getStock());
+        productDetail.setColor(_productDetail.getColor());
+        productDetail.setSize(_productDetail.getSize());
+        productDetail.setProduct(_productDetail.getProduct());
+
+        iProductDetailRepository.save(productDetail);
+        System.out.println(productDetail.toString());
+
         return null;
     }
 }

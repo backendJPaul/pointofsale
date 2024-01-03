@@ -1,5 +1,4 @@
 package com.jpaul.controller;
-
 import com.jpaul.model.Product;
 import com.jpaul.service.IProductService;
 import lombok.AllArgsConstructor;
