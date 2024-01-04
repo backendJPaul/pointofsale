@@ -30,12 +30,10 @@ public class PurchaseServiceImpl implements IPurchaseService{
 
     @Override
     public Purchase save(Purchase _purchase) {
-        Purchase purchase = iPurchaseRepository.save(_purchase);
-        ProductDetail productDetail = _purchase.getProductDetail();
-
-        productDetail.setStock(productDetail.getStock() + purchase.getStock());
-
-        return purchase;
+        ProductDetail productDetail = iProductDetailService.findById(_purchase.getProductDetail().getId());
+        productDetail.setStock(productDetail.getStock() + _purchase.getStock());
+        iProductDetailService.update(_purchase.getProductDetail().getId(),productDetail);
+        return _purchase;
     }
 
     @Override

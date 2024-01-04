@@ -36,12 +36,10 @@ public class PurchaseController{
     @PostMapping
     public ResponseEntity<Purchase> save(@RequestBody Purchase _purchase) {
         Purchase purchase = iPurchaseService.save(_purchase);
-        ProductDetail productDetail = iProductDetailService.findById(_purchase.getProductDetail().getId());
-        System.out.println(productDetail.toString());
         return new ResponseEntity<>(purchase, HttpStatus.CREATED);
     }
 
-    @PostMapping("{id}")
+    @PutMapping("{id}")
     public ResponseEntity<Purchase> update(@PathVariable("id") Long id){
         //Purchase purchase = iPurchaseService.up
         //return new ResponseEntity<>(purchase, HttpStatus.OK);
