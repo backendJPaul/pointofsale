@@ -33,4 +33,6 @@ public class ProductController {
         return new ResponseEntity<>(productList, HttpStatus.OK);
     }
 
+    //TODO add delete option, when i delete a product delete ProductDetail too
+
 }

@@ -1,9 +1,9 @@
 use pos;
 
-insert into category(name)values("camisetas");
-insert into category(name)values("poleras");
-insert into category(name)values("camisas");
-insert into category(name)values("pantalones");
+insert into category(icon,name)values("checkroom","camisetas");
+insert into category(icon,name)values("checkroom","poleras");
+insert into category(icon,name)values("checkroom","camisas");
+insert into category(icon,name)values("checkroom","pantalones");
 
 
 insert into material_type(name)values("algodon");

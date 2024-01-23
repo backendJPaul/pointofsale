@@ -16,6 +16,12 @@ public class Product implements Serializable {
     private String name;
     @Column(nullable = false)
     private String description;
+
+    //TODO urlImage
+
+    @Column(nullable = false)
+    private String urlImg;
+
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;

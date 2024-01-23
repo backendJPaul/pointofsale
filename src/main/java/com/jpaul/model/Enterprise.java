@@ -15,4 +15,6 @@ public class Enterprise {
 
     @Column(nullable = false)
     private String name;
+
+    //TODO add telephone
 }
