@@ -43,6 +43,10 @@ public class CategoryServiceImpl implements ICategoryService {
             throw new ResourceNotFoundException("Record not found with id :" +  _category.getId());
         }
     }
+    @Override
+    public Category delete(Long id) {
+        return categoryRepository.;
+    }
 }
 
 

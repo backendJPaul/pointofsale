@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-@CrossOrigin(origins = {"http://127.0.0.1:5500"})
+@CrossOrigin(origins = {"http://127.0.0.1:5500/"})
 @AllArgsConstructor
 @RestController
 @RequestMapping("api/categories")
@@ -42,5 +42,9 @@ public class CategoryController{
         System.out.println(_category.toString());
         _category.setId(id);
         return new ResponseEntity<>(iCategoryService.update(_category), HttpStatus.OK);
+    }
+    @DeleteMapping("{id}")
+    public ResponseEntity<Category> delete(@PathVariable Long id){
+
     }
 }
