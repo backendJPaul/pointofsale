@@ -38,6 +38,8 @@ public class CategoryController{
 
     @PutMapping("/{id}")
     public ResponseEntity<Category> update(@PathVariable Long id, @RequestBody Category _category){
+
+        System.out.println(_category.toString());
         _category.setId(id);
         return new ResponseEntity<>(iCategoryService.update(_category), HttpStatus.OK);
     }
