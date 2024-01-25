@@ -44,8 +44,14 @@ public class CategoryServiceImpl implements ICategoryService {
         }
     }
     @Override
-    public Category delete(Long id) {
-        return categoryRepository.;
+    public void delete(Long id) {
+        Optional <Category> category = categoryRepository.findById(id);
+        if(category.isPresent()){
+            this.categoryRepository.delete(category.get());
+        }
+        else {
+            throw new ResourceNotFoundException("Record not found with id" + id);
+        }
     }
 }
 
