@@ -14,7 +14,18 @@ public class Enterprise {
     private long id;
 
     @Column(nullable = false)
+    private String icon;
+
+    @Column(nullable = false)
     private String name;
 
-    //TODO add telephone
+    @Column(nullable = false)
+    private String telephone;
+
+    @Column(nullable = false)
+    private String updateField = "update";
+
+    @Column(nullable = false)
+    private String deleteField = "delete";
+
 }

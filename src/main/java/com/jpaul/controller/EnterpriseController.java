@@ -32,4 +32,10 @@ public class EnterpriseController{
         Enterprise enterprise = iEnterpriseService.save(_enterprise);
         return new ResponseEntity<>(enterprise, HttpStatus.CREATED);
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<Enterprise> update(@PathVariable long id, @RequestBody Enterprise _enterprise){
+       _enterprise.setId(id);
+       
+    }
+
 }

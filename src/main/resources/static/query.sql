@@ -1,7 +1,5 @@
-insert into category(icon,name)values("checkroom","camisetas");
-insert into category(icon,name)values("checkroom","poleras");
-insert into category(icon,name)values("checkroom","camisas");
-insert into category(icon,name)values("checkroom","pantalones");
+describe category;
+insert into category(icon,name,editField,deleteField)values("checkroom","camisetas","update","delete");
 
 insert into material_type(name)values("algodon");
 insert into material_type(name)values("rip");

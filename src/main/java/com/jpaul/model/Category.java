@@ -23,7 +23,7 @@ public class Category implements Serializable {
     private String name;
 
     @Column(nullable = false)
-    private String editField = "update";
+    private String updateField = "update";
 
     @Column(nullable = false)
     private String deleteField = "delete";
