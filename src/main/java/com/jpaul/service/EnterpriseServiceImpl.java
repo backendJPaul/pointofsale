@@ -32,14 +32,20 @@ public class EnterpriseServiceImpl implements IEnterpriseService{
 
     @Override
     public Enterprise update(Enterprise _enterprise) {
+
+        System.out.println(_enterprise);
         Optional<Enterprise> enterprise = iEnterpriseRepository.findById(_enterprise.getId());
+        System.out.println(enterprise);
         if(enterprise.isPresent()){
             Enterprise enterpriseTemp = enterprise.get();
-            enterpriseTemp.setIcon(enterprise.get().getIcon());
-            enterpriseTemp.setName(enterprise.get().getName());
-            enterpriseTemp.setTelephone(enterprise.get().getTelephone());
-            enterpriseTemp.setUpdateField(enterprise.get().getUpdateField());
-            enterpriseTemp.setDeleteField(enterprise.get().getDeleteField());
+            enterpriseTemp.setIcon(_enterprise.getIcon());
+            enterpriseTemp.setName(_enterprise.getName());
+            enterpriseTemp.setTelephone(_enterprise.getTelephone());
+            enterpriseTemp.setUpdateField(_enterprise.getUpdateField());
+            enterpriseTemp.setDeleteField(_enterprise.getDeleteField());
+            System.out.println(enterpriseTemp);
+
+            iEnterpriseRepository.save(enterpriseTemp);
             return enterpriseTemp;
         }
         else{
@@ -51,6 +57,12 @@ public class EnterpriseServiceImpl implements IEnterpriseService{
 
     @Override
     public void delete(long id) {
-
+        Optional<Enterprise> enterprise = iEnterpriseRepository.findById(id);
+        if(enterprise.isPresent()){
+            this.iEnterpriseRepository.delete(enterprise.get());
+        }
+        else {
+            throw new ResourceNotFoundException("Record not found with id" + id);
+        }
     }
 }

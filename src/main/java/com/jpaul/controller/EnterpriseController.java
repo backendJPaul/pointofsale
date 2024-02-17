@@ -34,8 +34,14 @@ public class EnterpriseController{
     }
     @PutMapping("/{id}")
     public ResponseEntity<Enterprise> update(@PathVariable long id, @RequestBody Enterprise _enterprise){
+        System.out.println(_enterprise);
        _enterprise.setId(id);
-       
-    }
+       return new ResponseEntity<>(iEnterpriseService.update(_enterprise), HttpStatus.OK);
 
+    }
+    @DeleteMapping("{id}")
+    public HttpStatus delete(@PathVariable long id){
+        this.iEnterpriseService.delete(id);
+        return HttpStatus.OK;
+    }
 }
