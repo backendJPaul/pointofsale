@@ -26,6 +26,7 @@ public class Product implements Serializable {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
     @ManyToOne
+
     @JoinColumn(name = "material_type_id", nullable = false)
     private MaterialType materialType;
 }

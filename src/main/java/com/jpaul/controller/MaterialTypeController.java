@@ -32,4 +32,15 @@ public class MaterialTypeController {
         MaterialType materialType = iMaterialTypeService.save(_materialType);
         return new ResponseEntity<>(materialType, HttpStatus.CREATED);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<MaterialType> update(@PathVariable Long id, @RequestBody MaterialType _materialType){
+        _materialType.setId(id);
+        return new ResponseEntity<>(iMaterialTypeService.update(_materialType), HttpStatus.OK);
+    }
+    @DeleteMapping("{id}")
+    public HttpStatus delete(@PathVariable long id){
+        this.iMaterialTypeService.delete(id);
+        return HttpStatus.OK;
+    }
 }
