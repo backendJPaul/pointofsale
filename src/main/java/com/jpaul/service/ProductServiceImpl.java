@@ -1,5 +1,6 @@
 package com.jpaul.service;
 
+import com.jpaul.exception.ResourceNotFoundException;
 import com.jpaul.model.Product;
 import com.jpaul.model.Purchase;
 import com.jpaul.repository.IProductRepository;
@@ -28,5 +29,38 @@ public class ProductServiceImpl implements IProductService{
     @Override
     public Product save(Product product) {
         return iProductRepository.save(product);
+    }
+
+    @Override
+    public Product update(Product _product) {
+        Optional<Product> product = iProductRepository.findById(_product.getId());
+        if(product.isPresent()){
+            Product productTemp = product.get();
+            productTemp.setName(_product.getName());
+            productTemp.setCategory(_product.getCategory());
+            productTemp.setDescription(_product.getDescription());
+            productTemp.setMaterialType(_product.getMaterialType());
+            productTemp.setUrlImg(_product.getUrlImg());
+            iProductRepository.save(productTemp);
+            return productTemp;
+        }
+        else{
+            throw new ResourceNotFoundException("Resource not found by id" + _product.getId());
+        }
+
+
+
+    }
+
+    @Override
+    public void delete(long id) {
+        Optional<Product> productOptional = iProductRepository.findById(id);
+        if(productOptional.isPresent()){
+            iProductRepository.delete(productOptional.get());
+        }
+        else{
+            throw new ResourceNotFoundException("Resource not found by id" + productOptional.get().getId());
+        }
+
     }
 }

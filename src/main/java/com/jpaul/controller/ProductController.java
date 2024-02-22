@@ -33,6 +33,11 @@ public class ProductController {
         return new ResponseEntity<>(productList, HttpStatus.OK);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> update(@PathVariable long id, @RequestBody Product _product){
+        Product product = iProductService.update(_product);
+        return new ResponseEntity<>(_product,HttpStatus.OK);
+    }
     //TODO add delete option, when i delete a product delete ProductDetail too
 
 }
