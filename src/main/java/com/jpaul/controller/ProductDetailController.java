@@ -36,8 +36,8 @@ public class ProductDetailController{
     }
 
     @PostMapping("{id}")
-    public ResponseEntity<ProductDetail> update(@PathVariable("id") Long id, @RequestBody ProductDetail _proProductDetail){
-        ProductDetail productDetail = iProductDetailService.update(id,_proProductDetail);
+    public ResponseEntity<ProductDetail> update(@PathVariable("id") Long id, @RequestBody ProductDetail productDetail1){
+        ProductDetail productDetail = iProductDetailService.update(productDetail1);
         return new ResponseEntity<>(productDetail, HttpStatus.OK);
     }
 }

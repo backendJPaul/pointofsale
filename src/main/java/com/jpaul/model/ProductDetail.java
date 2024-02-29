@@ -3,6 +3,7 @@ package com.jpaul.model;
 
 import com.jpaul.enums.EColor;
 import com.jpaul.enums.ESize;
+import com.jpaul.enums.EStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -34,8 +35,16 @@ public class ProductDetail {
     @Enumerated(EnumType.STRING)
     ESize size;
 
+    @Enumerated(EnumType.STRING)
+    EStatus status;
+
     @ManyToOne
     @JoinColumn(name = "product_detail_id", nullable = false)
     private Product product;
 
+    @Column(nullable = false)
+    private String updateField = "update";
+
+    @Column(nullable = false)
+    private String deleteField = "delete";
 }

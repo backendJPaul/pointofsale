@@ -32,7 +32,7 @@ public class PurchaseServiceImpl implements IPurchaseService{
     public Purchase save(Purchase _purchase) {
         ProductDetail productDetail = iProductDetailService.findById(_purchase.getProductDetail().getId());
         productDetail.setStock(productDetail.getStock() + _purchase.getStock());
-        iProductDetailService.update(_purchase.getProductDetail().getId(),productDetail);
+        //iProductDetailService.update(_purchase.getProductDetail().getId(),productDetail);
         return _purchase;
     }
 

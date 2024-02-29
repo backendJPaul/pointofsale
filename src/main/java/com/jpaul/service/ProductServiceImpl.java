@@ -39,6 +39,7 @@ public class ProductServiceImpl implements IProductService{
             productTemp.setName(_product.getName());
             productTemp.setCategory(_product.getCategory());
             productTemp.setDescription(_product.getDescription());
+            productTemp.setEGender(_product.getEGender());
             productTemp.setMaterialType(_product.getMaterialType());
             productTemp.setUrlImg(_product.getUrlImg());
             iProductRepository.save(productTemp);

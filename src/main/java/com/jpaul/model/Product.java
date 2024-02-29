@@ -1,5 +1,6 @@
 package com.jpaul.model;
 
+import com.jpaul.enums.EGender;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.io.Serializable;
@@ -12,21 +13,30 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(nullable = false)
     private String name;
+
     @Column(nullable = false)
     private String description;
-
-    //TODO urlImage
 
     @Column(nullable = false)
     private String urlImg;
 
+    @Enumerated(EnumType.STRING)
+    EGender eGender;
+
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
-    @ManyToOne
 
+    @ManyToOne
     @JoinColumn(name = "material_type_id", nullable = false)
     private MaterialType materialType;
+
+    @Column(nullable = false)
+    private String updateField = "update";
+
+    @Column(nullable = false)
+    private String deleteField = "delete";
 }
