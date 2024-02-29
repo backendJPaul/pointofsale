@@ -32,6 +32,7 @@ public class CategoryController{
 
     @PostMapping
     public ResponseEntity<Category> save(@RequestBody Category _category) {
+        System.out.println(_category);
         Category category = iCategoryService.save(_category);
         return new ResponseEntity<>(category, HttpStatus.OK);
     }

@@ -48,9 +48,6 @@ public class ProductServiceImpl implements IProductService{
         else{
             throw new ResourceNotFoundException("Resource not found by id" + _product.getId());
         }
-
-
-
     }
 
     @Override
@@ -62,6 +59,5 @@ public class ProductServiceImpl implements IProductService{
         else{
             throw new ResourceNotFoundException("Resource not found by id" + productOptional.get().getId());
         }
-
     }
 }
