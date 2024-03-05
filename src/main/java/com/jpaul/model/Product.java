@@ -15,6 +15,9 @@ public class Product implements Serializable {
     private long id;
 
     @Column(nullable = false)
+    private String icon;
+
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)

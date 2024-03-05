@@ -36,6 +36,7 @@ public class ProductServiceImpl implements IProductService{
         Optional<Product> product = iProductRepository.findById(_product.getId());
         if(product.isPresent()){
             Product productTemp = product.get();
+            productTemp.setIcon(_product.getIcon());
             productTemp.setName(_product.getName());
             productTemp.setCategory(_product.getCategory());
             productTemp.setDescription(_product.getDescription());
