@@ -26,8 +26,9 @@ public class Product implements Serializable {
     @Column(nullable = false)
     private String urlImg;
 
-    @Enumerated(EnumType.STRING)
-    EGender eGender;
+    @ManyToOne
+    @JoinColumn(name = "gender_id", nullable = false)
+    private Gender gender;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
