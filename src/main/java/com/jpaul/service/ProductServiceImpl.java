@@ -55,10 +55,10 @@ public class ProductServiceImpl implements IProductService{
     public void delete(long id) {
         Optional<Product> productOptional = iProductRepository.findById(id);
         if(productOptional.isPresent()){
-            iProductRepository.delete(productOptional.get());
+            this.iProductRepository.delete(productOptional.get());
         }
         else{
-            throw new ResourceNotFoundException("Resource not found by id" + productOptional.get().getId());
+            throw new ResourceNotFoundException("Resource not found by id" + id);
         }
     }
 }

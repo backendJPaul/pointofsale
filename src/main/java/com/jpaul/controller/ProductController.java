@@ -38,6 +38,11 @@ public class ProductController {
         Product product = iProductService.update(_product);
         return new ResponseEntity<>(_product,HttpStatus.OK);
     }
-    //TODO add delete option, when i delete a product delete ProductDetail too
+
+    @DeleteMapping("{id}")
+    public HttpStatus delete(@PathVariable long id){
+        this.iProductService.delete(id);
+        return HttpStatus.OK;
+    }
 
 }
