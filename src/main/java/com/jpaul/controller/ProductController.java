@@ -35,11 +35,12 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Product> update(@PathVariable long id, @RequestBody Product _product){
+        _product.setId(id);
         Product product = iProductService.update(_product);
         return new ResponseEntity<>(_product,HttpStatus.OK);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public HttpStatus delete(@PathVariable long id){
         this.iProductService.delete(id);
         return HttpStatus.OK;
