@@ -40,4 +40,11 @@ public class ProductDetailController{
         ProductDetail productDetail = iProductDetailService.update(productDetail1);
         return new ResponseEntity<>(productDetail, HttpStatus.OK);
     }
+    @DeleteMapping("{id}")
+    public HttpStatus delete(@PathVariable Long id){
+        this.iProductDetailService.delete(id);
+        return HttpStatus.OK;
+    }
+
+
 }
