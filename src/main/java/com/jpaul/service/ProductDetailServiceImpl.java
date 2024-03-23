@@ -28,6 +28,12 @@ public class ProductDetailServiceImpl implements IProductDetailService{
     }
 
     @Override
+    public List<ProductDetail> findByProduct(long id) {
+
+        return null;
+    }
+
+    @Override
     public ProductDetail save(ProductDetail _productDetail) {
         ProductDetail productDetail = iProductDetailRepository.save(_productDetail);
         return productDetail;

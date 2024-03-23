@@ -7,6 +7,7 @@ import java.util.List;
 public interface IProductDetailService {
     List<ProductDetail> findAll();
     ProductDetail findById(Long id);
+    List<ProductDetail> findByProduct();
     ProductDetail save(ProductDetail _productDetail);
     ProductDetail update(ProductDetail _productDetail);
     ProductDetail delete(Long id);

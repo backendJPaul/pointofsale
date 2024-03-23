@@ -6,10 +6,12 @@ import com.jpaul.enums.ESize;
 import com.jpaul.enums.EStatus;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.data.jpa.repository.Query;
 
 @Entity
 @Data
 @Table(name = "product_detail")
+@NamedQuery(name = "findDetailByProduct", query = "select _productDetail from ProductDetail _productDetail where _productDetail.product.id = ?1 ")
 public class ProductDetail {
 
     private static final long SerialVersionLONG = 1L;
