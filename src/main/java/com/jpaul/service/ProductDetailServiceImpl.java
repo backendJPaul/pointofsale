@@ -28,9 +28,9 @@ public class ProductDetailServiceImpl implements IProductDetailService{
     }
 
     @Override
-    public List<ProductDetail> findByProduct(long id) {
-
-        return null;
+    public List<ProductDetail> findByProductDetailByProductId(long id) {
+        List<ProductDetail> productDetailList = iProductDetailRepository.findProductDetailByProductId(id);
+        return productDetailList;
     }
 
     @Override
@@ -47,6 +47,7 @@ public class ProductDetailServiceImpl implements IProductDetailService{
 
             ProductDetail productDetail = productOptional.get();
 
+            productDetail.setIcon(_productDetail.getIcon());
             productDetail.setDescription(_productDetail.getDescription());
             productDetail.setPurchasePrice(_productDetail.getPurchasePrice());
             productDetail.setSalePrice(_productDetail.getSalePrice());

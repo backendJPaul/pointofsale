@@ -28,6 +28,11 @@ public class ProductDetailController{
         return new ResponseEntity<>(productDetail, HttpStatus.OK);
     }
 
+    @GetMapping("search/{id}")
+    public ResponseEntity<List<ProductDetail>> findByProductDetailId(@PathVariable("id") long id){
+        List<ProductDetail> productDetailList = iProductDetailService.findByProductDetailByProductId(id);
+        return new ResponseEntity<>(productDetailList, HttpStatus.OK);
+    }
 
     @PostMapping
     public ResponseEntity<ProductDetail> save(@RequestBody ProductDetail _productDetail) {
