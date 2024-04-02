@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "color")
-public class Color{
+@Table(name ="size")
+public class Size {
     private static final long serialVersionLONG = 1L;
 
     @Id
@@ -24,4 +24,5 @@ public class Color{
 
     @Column(nullable = false)
     private String deleteField;
+
 }

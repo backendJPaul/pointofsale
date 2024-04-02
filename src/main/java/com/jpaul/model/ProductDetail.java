@@ -33,14 +33,17 @@ public class ProductDetail {
     @Column(nullable = false)
     private int stock;
 
-    @Enumerated(EnumType.STRING)
-    EColor color;
+    @ManyToOne
+    @JoinColumn(name = "color_id", nullable = false)
+    private Color color;
 
-    @Enumerated(EnumType.STRING)
-    ESize size;
+    @ManyToOne
+    @JoinColumn(name = "size_id", nullable = false)
+    private Size size;
 
-    @Enumerated(EnumType.STRING)
-    EStatus status;
+    @ManyToOne
+    @JoinColumn(name = "status_id", nullable = false)
+    private Status status;
 
     @ManyToOne
     @JoinColumn(name = "product_detail_id", nullable = false)

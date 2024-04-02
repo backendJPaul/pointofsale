@@ -5,9 +5,9 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "color")
-public class Color{
-    private static final long serialVersionLONG = 1L;
+@Table(name = "status")
+public class Status {
+    private static final Long serialVersionLONG = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,4 +24,6 @@ public class Color{
 
     @Column(nullable = false)
     private String deleteField;
+
+
 }
