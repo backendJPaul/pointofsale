@@ -38,6 +38,7 @@ public class ColorServiceImpl implements IColorService {
         Optional<Color> optionalColor = iColorRepository.findById(_color.getId());
         if(optionalColor.isPresent()){
             Color color = optionalColor.get();
+            color.setIcon(_color.getIcon());
             color.setName(_color.getName());
             color.setUpdateField(_color.getUpdateField());
             color.setDeleteField(_color.getDeleteField());

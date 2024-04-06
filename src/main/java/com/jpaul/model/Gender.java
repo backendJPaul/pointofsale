@@ -17,6 +17,9 @@ public class Gender {
     private String name;
 
     @Column(nullable = false)
+    private String icon;
+
+    @Column(nullable = false)
     private String updateField = "update";
 
     @Column(nullable = false)

@@ -36,6 +36,7 @@ public class GenderServiceImpl implements IGenderService{
 
         if(genderOptional.isPresent()){
             Gender gender = genderOptional.get();
+            gender.setIcon(_gender.getIcon());
             gender.setName(_gender.getName());
             gender.setUpdateField(_gender.getUpdateField());
             gender.setDeleteField(_gender.getDeleteField());
