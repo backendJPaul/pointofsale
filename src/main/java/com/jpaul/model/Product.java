@@ -38,6 +38,13 @@ public class Product implements Serializable {
     @JoinColumn(name = "material_type_id", nullable = false)
     private MaterialType materialType;
 
+    @ManyToOne
+    @JoinColumn(name = "enterprise_id", nullable = false)
+    private Enterprise enterprise;
+
+    @Column(nullable = false)
+    private String iconAddProductDetail;
+
     @Column(nullable = false)
     private String updateField = "update";
 

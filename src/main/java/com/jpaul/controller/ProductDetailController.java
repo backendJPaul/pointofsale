@@ -26,6 +26,7 @@ public class ProductDetailController{
     public ResponseEntity<ProductDetail> findById(@PathVariable("id") Long id) {
         ProductDetail productDetail = iProductDetailService.findById(id);
         return new ResponseEntity<>(productDetail, HttpStatus.OK);
+
     }
 
     @GetMapping("search/{id}")

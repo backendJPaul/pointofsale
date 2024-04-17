@@ -31,7 +31,7 @@ public class ProductDetail {
     private double salePrice;
 
     @Column(nullable = false)
-    private int stock;
+    private int stock = 0;
 
     @ManyToOne
     @JoinColumn(name = "color_id", nullable = false)

@@ -23,6 +23,7 @@ public class ProductDetailServiceImpl implements IProductDetailService{
 
     @Override
     public ProductDetail findById(Long id) {
+        System.out.println(id);
         Optional<ProductDetail> productDetail = iProductDetailRepository.findById(id);
         return productDetail.get();
     }

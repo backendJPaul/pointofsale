@@ -1,14 +1,24 @@
-describe category;
-insert into category(icon,name,editField,deleteField)values("checkroom","camisetas","update","delete");
-
-insert into material_type(name)values("algodon");
-insert into material_type(name)values("rip");
-insert into material_type(name)values("jean");
-insert into material_type(name)values("franela");
-insert into material_type(name)values("french terry");
-insert into material_type(name)values("french terry perchado");
-insert into material_type(name)values("licra");
-insert into material_type(name)values("suplex");
-
-insert into enterprise(name)values ("tardos");
-insert into enterprise(name)values("queasila");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Chompas y cárdigans","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Poleras","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Pantalones","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Casacas y abrigos","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Básicos","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Polos y tops","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Blusas y camisas","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Jeans","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Blazers","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Vestidos","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Faldas","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Shorts","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Ropa interior","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Lencería","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Medias y pantys","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Pijamas","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Ropa deportiva","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Ropa de maternidad","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Polos","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Camisas","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Joggers","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Accesorios","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Correas","update","delete");
+insert into category(icon,name,update_field,delete_field)values("checkroom","Shorts","update","delete");
