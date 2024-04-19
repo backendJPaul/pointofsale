@@ -57,6 +57,9 @@ public class ProductDetailServiceImpl implements IProductDetailService{
             productDetail.setSize(_productDetail.getSize());
             productDetail.setProduct(_productDetail.getProduct());
             productDetail.setStatus(_productDetail.getStatus());
+            productDetail.setLocation(_productDetail.getLocation());
+            productDetail.setUpdateField(_productDetail.getUpdateField());
+            productDetail.setDeleteField(_productDetail.getDeleteField());
 
             iProductDetailRepository.save(productDetail);
 

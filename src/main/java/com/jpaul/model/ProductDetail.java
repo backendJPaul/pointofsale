@@ -49,6 +49,10 @@ public class ProductDetail {
     @JoinColumn(name = "product_detail_id", nullable = false)
     private Product product;
 
+    @ManyToOne
+    @JoinColumn(name ="location_id", nullable = false)
+    private Location location;
+
     @Column(nullable = false)
     private String updateField = "update";
 
