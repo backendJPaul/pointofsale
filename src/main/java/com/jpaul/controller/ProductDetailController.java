@@ -41,9 +41,10 @@ public class ProductDetailController{
         return new ResponseEntity<>(productDetail, HttpStatus.CREATED);
     }
 
-    @PostMapping("{id}")
-    public ResponseEntity<ProductDetail> update(@PathVariable("id") Long id, @RequestBody ProductDetail productDetail1){
-        ProductDetail productDetail = iProductDetailService.update(productDetail1);
+    @PutMapping("{id}")
+    public ResponseEntity<ProductDetail> update(@PathVariable("id") Long id, @RequestBody ProductDetail _productDetail){
+        System.out.println(_productDetail.toString());
+        ProductDetail productDetail = iProductDetailService.update(_productDetail);
         return new ResponseEntity<>(productDetail, HttpStatus.OK);
     }
     @DeleteMapping("{id}")
