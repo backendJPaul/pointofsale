@@ -26,6 +26,7 @@ public class CategoryController{
     }
     @GetMapping({"/{id}"})
     public ResponseEntity<Category> findById(@PathVariable("id") Long id) {
+
         Category category = iCategoryService.findById(id);
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
